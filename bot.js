@@ -9,7 +9,42 @@ client.on('ready', () => {
   console.log(' Bot Is Online')
   console.log('---------------')
 });
-	
+
+client.on('message', message =>{
+	var prefix = "-";
+    if(message.author.bot) return;
+    if(!message.content == (prefix+'clear'))
+if(!true) return;
+    if(message.content.split(' ')[0] == (prefix+'clear')){
+    var lmt = message.content.split(' ')[1]
+    ,  hang = 0
+    ,  max  = 0;
+    
+    if(!lmt) lmt = 200;
+    if(typeof lmt !== 'number') return;
+    if(lmt > 100){
+        for(;lmt > 100;){
+        lmt--;
+        hang++;
+        }
+        }
+     message.channel.fetchMessages({limite:lmt}).then(msgs=>{
+     msgs.channel.bulkDelete(msgs);
+     });
+     if(hang > 100){
+         hang = 100;
+     }
+        message.channel.fetchMessages({limite:hang}).then(msgs=>{
+        message.channel.bulkDelete(msgs);
+     });
+     
+    max= hang+lmt;
+    message.reply(` **Done, i have delete ${max} messages!**.`).catch(()=>{
+        message.reply(` **Sorry, i can only bulk delete messages that are under 14 days old**.`)
+    });
+    }
+});
+
 client.on('message', message => {
         if (message.content.startsWith(prefix + "uptime")) {
     let ms = client.uptime;
@@ -129,7 +164,7 @@ client.on('message', message => {
 
  ❖ *kick <mention > ➾ kick member from server
 
- ❖ *clear ➾ clear chat ( not ready yet fixing)
+ ❖ *clear ➾ clear chat
  
  ❖ *mute < mention > ➾ mute member
 
